@@ -3,6 +3,8 @@
 include '../includes/database.php';
 include '../includes/user.php';
 
+session_start();
+
 $sql = init_sql();
 
 $user = get_user($sql);
@@ -21,11 +23,13 @@ $user = get_user($sql);
     <?php
       if($user["connected"]):// alternative syntax, easier inside html
     ?>
-    <!--A user is connected-->
+    <p>Bonjour <?php echo $user['name']; ?></p>
+    <a href="disconnect.php">Me déconnecter</a>
     <?php
       else:
     ?>
-    <!--No connected user-->
+    <a href="createAccount.php">Créer mon compte</a><br>
+    <a href="connect.php">Me connecter</a><br>
     <?php
       endif;
     ?>
