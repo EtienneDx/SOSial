@@ -1,6 +1,35 @@
 <?php
 
+include '../includes/database.php';
+include '../includes/user.php';
 
+session_start();
+
+$mysqli = init_sql();
+
+$user = get_user($mysqli);
+
+if(!$user["connected"])// redirect unconnected
+{
+  header("Location: index.php");
+  die('Redirect');
+}
+
+$prep = $mysqli->prepare("CALL select_events()");// use stored procedure to get events
+$prep->execute();
+
+$result = $prep->get_result();
+$prep->close();
+
+$events = array();
+
+if($result->num_rows >= 0)
+{
+  while($data = $result->fetch_assoc())
+  {
+    array_push($events, $data);
+  }
+}
 
 ?>
 <!DOCTYPE html>
@@ -34,6 +63,9 @@
       crossorigin=""
     >
     </script>
+		<script>
+			var events = <?php echo json_encode($events); ?>;
+		</script>
     <script type="text/javascript" src="../js/map.js"></script>
 	</body>
 </html>
