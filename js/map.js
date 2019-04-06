@@ -43,7 +43,8 @@ La page HTML qui va nous permettre de travailler
                 })
                 .then(function(resultat) {
                       if(resultat.length > 0){
-												L.marker([resultat[0].lat, resultat[0].lon]).addTo(macarte);
+												var desc = prompt("Ajouter une description : ");
+												L.marker([resultat[0].lat, resultat[0].lon]).addTo(macarte).bindPopup(desc);
 												console.log(resultat);
 											}
 											else{
