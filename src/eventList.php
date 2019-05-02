@@ -40,19 +40,49 @@ if($result->num_rows >= 0)
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../css/main.css"/>
+    <link rel="stylesheet" href="../css/eventList.css"/>
   </head>
   <body>
     <div class="container">
+      <div class="row title-container">
+        <div class="col-12 title">Events list</div>
+      </div>
       <?php
       foreach ($events as $key => $event):
       ?>
         <div class="row">
-          <div class="container">
-            <div class="row"><?php echo $event['name']; ?> - <?php echo $event['description']; ?></div>
+          <div class="col-md-8 offset-md-2 col-sm-12 container event">
             <div class="row">
-              createur de l'evenement : <?php echo $event['author_name']; ?>,
-              actuellement <?php echo $event['participants_count']; ?> participants et
-              <?php echo $event['organisers_count'] ?> organisateurs.
+              <div class="col-8 container">
+                <div class="row">
+                  <div class="col-12 event-name">
+                    <?php echo $event['name']; ?>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 event-description">
+                    <?php echo $event['description']; ?>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    Créé par : <?php echo $event['author_name']; ?>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    Participants : <?php echo $event['participants_count']; ?>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    Organisateurs : <?php echo $event['organisers_count']; ?>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3 offset-1">
+                <a class="btn btn-info detail-btn" href="/eventDetails.php?eventId=<?php echo $event['id']; ?>">Details</a>
+              </div>
             </div>
           </div>
         </div>

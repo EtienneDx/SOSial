@@ -18,7 +18,7 @@ if(!$user["connected"] || $user['role'] !== 1)// redirect unconnected
 if(isset($_GET['name']) && isset($_GET['description']) && isset($_GET['latitude']) && isset($_GET['longitude']))
 {
   $prep = $mysqli->prepare("INSERT INTO `events` (`author_id`, `name`, `description`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?)");
-  $prep->bind_param("issdd", intval($user['id']), $_GET['name'], $_GET['description'], intval($_GET['latitude']), intval($_GET['longitude']));
+  $prep->bind_param("issdd", intval($user['id']), htmlspecialchars($_GET['name']), htmlspecialchars($_GET['description']), intval($_GET['latitude']), intval($_GET['longitude']));
 
   $prep->execute();
 

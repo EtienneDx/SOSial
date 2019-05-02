@@ -54,20 +54,37 @@ else if(isset($_POST['username']) && isset($_POST['password']))
     <meta charset="utf-8"/>
     <title>SOS'ial</title>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../css/main.css"/>
   </head>
   <body>
-    <h1>Me connecter</h1>
     <?php
     if($error !== null):
     ?>
     <p>Erreur : <?php echo $error; ?>
     <?php endif; ?>
-    <form method="POST" target="_self">
-      <label for="username">Nom d'utilisateur : <input type="text" name="username" id="username"></input></label><br>
-      <label for="password">Mot de passe : <input type="password" name="password" id="password"></input></label><br>
-      <input type="submit"></input>
-    </form>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 title">Me connecter</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3 col-sm-12">
+          <form method="POST" target="_self">
+            <div class="form-group">
+              <label for="username">Nom d'utilisateur : </label>
+              <input type="text" class="form-control" name="username" id="username" placeholder="Username"></input>
+            </div>
+            <div class="form-group">
+              <label for="password">Mot de passe : </label>
+              <input type="password" class="form-control" name="password" id="password"></input>
+            </div>
+            <input type="submit" class="btn btn-primary"></input>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="../js/index.js"></script>
   </body>
 </html>

@@ -1,0 +1,19 @@
+.event
+{
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px;
+  background-color: #BBB;
+  margin-bottom: 3px;
+}
+
+.title-container
+{
+  margin-bottom: 15px;
+}
+
+.detail-btn
+{
+  margin-top: 20px;
+}
