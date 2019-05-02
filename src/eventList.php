@@ -81,7 +81,7 @@ if($result->num_rows >= 0)
                 </div>
               </div>
               <div class="col-3 offset-1">
-                <a class="btn btn-info detail-btn" href="/eventDetails.php?eventId=<?php echo $event['id']; ?>">Details</a>
+                <a class="btn btn-info detail-btn" href="./eventDetails.php?eventId=<?php echo $event['id']; ?>">Details</a>
               </div>
             </div>
           </div>

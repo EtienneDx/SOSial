@@ -18,16 +18,26 @@ else if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['
   $_POST['password'] == $_POST['confirm_password'])
 {
   $prep = $mysqli->prepare("INSERT INTO users (name, password) VALUES (?, ?)");
-  $prep->bind_param("ss", $_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
-  $prep->execute();
-  $prep->close();
+  $uname = htmlspecialchars($_POST['username']);
+  $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
+  $prep->bind_param("ss", $uname, $pass);
+  if(!$prep->execute())
+  {
+    $error = $prep->error;
+  }
+  else
+  {
+    $prep->close();
 
-  $_SESSION['username'] = $_POST['username'];
-  $_SESSION['password'] = $_POST['password'];
+    $_SESSION['username'] = $_POST['username'];
+    $_SESSION['password'] = $_POST['password'];
 
-  // we created the account so job's done
-  header("Location: index.php");
-  die('Redirect');
+    // error here??§?
+
+    // we created the account so job's done
+    header("Location: index.php");
+    die('Redirect');
+  }
 }
 
 ?>
@@ -45,6 +55,11 @@ else if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['
       <div class="row">
         <div class="col-12 title">Créer mon compte</div>
       </div>
+      <?php if(isset($error)): ?>
+        <div class="alert alert-danger">
+          <?php echo $error; ?>
+        </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-md-6 offset-md-3 col-sm-12">
           <form method="POST" target="_self">
@@ -60,7 +75,7 @@ else if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['
               <label for="confirm_password">Confirmer le mot de passe : </label>
               <input type="password" class="form-control" name="confirm_password" id="confirm_password"></input>
             </div>
-            <input type="submit" class="btn btn-primary"></input>
+            <button type="submit" class="btn btn-primary">Créer mon compte</button>
           </form>
         </div>
       </div>
