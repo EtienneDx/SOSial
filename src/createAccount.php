@@ -14,29 +14,58 @@ if($user["connected"])// already has an account
   header("Location: index.php");
   die('Redirect');
 }
-else if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['confirm_password']) &&
-  $_POST['password'] == $_POST['confirm_password'])
+else if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['confirm_password']) && isset($_POST['role']))
 {
-  $prep = $mysqli->prepare("INSERT INTO users (name, password) VALUES (?, ?)");
-  $uname = htmlspecialchars($_POST['username']);
-  $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
-  $prep->bind_param("ss", $uname, $pass);
-  if(!$prep->execute())
+  if(strlen($_POST['password']) < 4)
   {
-    $error = $prep->error;
+    $error = "Un mot de passe doit contenir au minimum 4 charactères!";
+  }
+  else if($_POST['password'] != $_POST['confirm_password'])
+  {
+    $error = "Les mots de passe ne correspondent pas!";
+  }
+  else if(strlen($_POST['username']) == 0)
+  {
+    $error = "Un nom d'utilisateur ne peut être vide!";
   }
   else
   {
+    $prep = $mysqli->prepare("SELECT COUNT(*) FROM users WHERE name=?");
+    $prep->bind_param("s", $_POST['username']);
+
+    $prep->execute();
+
+    $result = $prep->get_result();
     $prep->close();
 
-    $_SESSION['username'] = $_POST['username'];
-    $_SESSION['password'] = $_POST['password'];
+    if($result->fetch_row()[0] > 0)// user already exists
+    {
+      $error = "Ce nom est déjà utilisé!";
+    }
+    else
+    {
+      $prep = $mysqli->prepare("INSERT INTO users (name, password, role) VALUES (?, ?, ?)");
+      $uname = htmlspecialchars($_POST['username']);
+      $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
+      $prep->bind_param("ssi", $uname, $pass, $_POST['role']);
+      if(!$prep->execute())
+      {
+        $error = $prep->error;
+      }
+      else
+      {
+        $prep->close();
 
-    // error here??§?
+        $_SESSION['username'] = $_POST['username'];
+        $_SESSION['password'] = $_POST['password'];
 
-    // we created the account so job's done
-    header("Location: index.php");
-    die('Redirect');
+        // error here??§?
+
+        // we created the account so job's done
+        header("Location: index.php");
+        die('Redirect');
+      }
+    }
   }
 }
 
@@ -74,6 +103,18 @@ else if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['
             <div class="form-group">
               <label for="confirm_password">Confirmer le mot de passe : </label>
               <input type="password" class="form-control" name="confirm_password" id="confirm_password"></input>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="role" id="sansAbris" value="0" checked>
+              <label class="form-check-label" for="sansAbris">
+                Je suis sans-abris
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="role" id="volontaire" value="1">
+              <label class="form-check-label" for="volontaire">
+                Je suis volontaire
+              </label>
             </div>
             <button type="submit" class="btn btn-primary">Créer mon compte</button>
           </form>

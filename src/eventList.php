@@ -15,7 +15,30 @@ if(!$user["connected"])// redirect unconnected
   die('Redirect');
 }
 
-$prep = $mysqli->prepare("CALL select_events()");// use stored procedure to get events
+$prep = $mysqli->prepare("SELECT
+	e.id,
+  e.name,
+  e.description,
+  e.longitude,
+  e.latitude,
+  e.date,
+  u.Name as author_name,
+  (
+      SELECT COUNT(*)
+      FROM participants
+      INNER JOIN users as pa ON pa.id = participants.user_id
+      WHERE participants.event_id = e.id AND pa.role = 0
+  ) AS participants_count,
+  (
+      SELECT COUNT(*)
+      FROM participants
+      INNER JOIN users as pa ON pa.id = participants.user_id
+      WHERE participants.event_id = e.id AND pa.role = 1
+  ) AS organisers_count
+FROM events AS e
+INNER JOIN users AS u
+	ON u.id = e.author_id
+WHERE e.date >= CURDATE()");// get all future events
 $prep->execute();
 
 $result = $prep->get_result();
