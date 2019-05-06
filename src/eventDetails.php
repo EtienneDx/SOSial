@@ -125,6 +125,11 @@ if($result->num_rows >= 0)
         </div>
       </div>
       <div class="row">
+        <a class="btn btn-warning col-4 offset-4" href="./eventList.php">
+          Retour à la liste
+        </a>
+      </div>
+      <div class="row">
         <a class="btn btn-info col-4 offset-4" href="./map.php?eventId=<?php echo $event['id']; ?>">
           Voir sur la carte
         </a>

@@ -45,7 +45,11 @@ if($result->num_rows >= 0)
   <body>
     <div class="container">
       <div class="row title-container">
-        <div class="col-12 title">Events list</div>
+        <div class="col-12 title">Liste des évènements</div>
+      </div>
+      <div class="row" style="margin-bottom: 5px;">
+        <a class="offset-1 col-3 btn btn-danger" href="index.php">Retour</a>
+        <a class="offset-4 col-3 btn btn-info" href="map.php">Carte</a>
       </div>
       <ul class="list-group">
         <?php
