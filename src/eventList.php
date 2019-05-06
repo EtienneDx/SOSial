@@ -47,11 +47,11 @@ if($result->num_rows >= 0)
       <div class="row title-container">
         <div class="col-12 title">Events list</div>
       </div>
-      <?php
-      foreach ($events as $key => $event):
-      ?>
-        <div class="row">
-          <div class="col-md-8 offset-md-2 col-sm-12 container event">
+      <ul class="list-group">
+        <?php
+        foreach ($events as $key => $event):
+        ?>
+          <li class="list-group-item">
             <div class="row">
               <div class="col-8 container">
                 <div class="row">
@@ -84,11 +84,11 @@ if($result->num_rows >= 0)
                 <a class="btn btn-info detail-btn" href="./eventDetails.php?eventId=<?php echo $event['id']; ?>">Details</a>
               </div>
             </div>
-          </div>
-        </div>
-      <?php
-      endforeach;
-      ?>
+          </li>
+        <?php
+        endforeach;
+        ?>
+      </ul>
     </div>
 
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

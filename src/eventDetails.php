@@ -125,13 +125,13 @@ if($result->num_rows >= 0)
         </div>
       </div>
       <div class="row">
-        <a class="btn btn-info col-4 offset-4" href="/map.php?zoom=<?php echo $event['id']; ?>">
+        <a class="btn btn-info col-4 offset-4" href="./map.php?eventId=<?php echo $event['id']; ?>">
           Voir sur la carte
         </a>
       </div>
       <?php if($event['isParticipant'] == 0): ?>
         <div class="row">
-          <a class="btn btn-success col-4 offset-4" href="/participate.php?eventId=<?php echo $event['id']; ?>">
+          <a class="btn btn-success col-4 offset-4" href="./participate.php?eventId=<?php echo $event['id']; ?>">
             Participer a l'évènement
           </a>
         </div>

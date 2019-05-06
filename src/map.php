@@ -31,6 +31,16 @@ if($result->num_rows >= 0)
   }
 }
 
+function getEvent($events, $id)
+{
+  foreach ($events as $event)
+  {
+    if($event['id'] == $id)
+      return $event;
+  }
+  return null;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,9 +54,12 @@ if($result->num_rows >= 0)
     />
 
 		<style type="text/css">
-			#map
+			html, body, #map
       { /* la carte DOIT avoir une hauteur sinon elle n'apparaît pas */
-				height:400px;
+				width:100%;
+				height:100%;
+        margin: 0;
+        padding: 0;
 			}
 		</style>
 		<title>Carte</title>
@@ -64,6 +77,8 @@ if($result->num_rows >= 0)
     >
     </script>
 		<script>
+      var lat = <?php echo (isset($_GET['eventId']) && !is_null(getEvent($events, $_GET['eventId']))) ? getEvent($events, $_GET['eventId'])['latitude'] : '48.852969'; ?>;
+      var lon = <?php echo (isset($_GET['eventId']) && !is_null(getEvent($events, $_GET['eventId']))) ? getEvent($events, $_GET['eventId'])['longitude'] : '2.349903'; ?>;
 			var events = <?php echo json_encode($events); ?>;
 		</script>
     <script type="text/javascript" src="../js/map.js"></script>
