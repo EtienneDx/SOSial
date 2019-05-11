@@ -71,8 +71,13 @@ if($result->num_rows >= 0)
         <div class="col-12 title">Liste des évènements</div>
       </div>
       <div class="row" style="margin-bottom: 5px;">
-        <a class="offset-1 col-3 btn btn-danger" href="index.php">Retour</a>
-        <a class="offset-4 col-3 btn btn-info" href="map.php">Carte</a>
+        <a class="offset-1 col-2 btn btn-danger" href="index.php">Retour</a>
+        <?php if($user['role'] == 1): ?>
+          <a class="offset-1 col-4 btn btn-warning" href="createEvent.php">Créer un évènement</a>
+          <a class="offset-1 col-2 btn btn-info" href="map.php">Carte</a>
+        <?php else: ?>
+          <a class="offset-6 col-2 btn btn-info" href="map.php">Carte</a>
+        <?php endif; ?>
       </div>
       <ul class="list-group">
         <?php
@@ -119,6 +124,5 @@ if($result->num_rows >= 0)
     </div>
 
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="../js/index.js"></script>
   </body>
 </html>

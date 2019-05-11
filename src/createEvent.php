@@ -15,10 +15,10 @@ if(!$user["connected"] || $user['role'] !== 1)// redirect unconnected
   die('Redirect');
 }
 
-if(isset($_GET['name']) && isset($_GET['description']) && isset($_GET['latitude']) && isset($_GET['longitude']))
+if(isset($_POST['name']) && isset($_POST['description']) && isset($_POST['latitude']) && isset($_POST['longitude']) && isset($_POST['date']))
 {
-  $prep = $mysqli->prepare("INSERT INTO `events` (`author_id`, `name`, `description`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?)");
-  $prep->bind_param("issdd", intval($user['id']), htmlspecialchars($_GET['name']), htmlspecialchars($_GET['description']), intval($_GET['latitude']), intval($_GET['longitude']));
+  $prep = $mysqli->prepare("INSERT INTO `events` (`author_id`, `name`, `description`, `latitude`, `longitude`, `date`) VALUES (?, ?, ?, ?, ?, ?)");
+  $prep->bind_param("issdds", intval($user['id']), htmlspecialchars($_POST['name']), htmlspecialchars($_POST['description']), intval($_POST['latitude']), intval($_POST['longitude']), $_POST['date']);
 
   $prep->execute();
 
@@ -42,18 +42,52 @@ if(isset($_GET['name']) && isset($_GET['description']) && isset($_GET['latitude'
     <title>SOS'ial</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" href="../css/main.css"/>
   </head>
   <body>
-    <form target="_self" method="GET">
-      <label for="name">Nom : <input type="text" name="name" id="name"></input></label><br>
-      <label for="description">Description : <textarea name="description" id="description"></textarea></label><br>
-      <label for="longitude">Longitude : <input type="number" name="longitude" id="longitude"></input></label><br>
-      <label for="latitude">Latitude : <input type="number" name="latitude" id="latitude"></input></label><br>
-      <input type="submit"></input>
-    </form>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 title">
+          Créer un nouvel évènement
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3 col-sm-12">
+          <form target="_self" method="POST">
+            <div class="form-group">
+              <label for="name">Nom : </label>
+              <input type="text" name="name" id="name" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label for="description">Description : </label>
+              <textarea name="description" id="description" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="longitude">Longitude : </label>
+              <input type="number" name="longitude" id="longitude" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label for="latitude">Latitude : </label>
+              <input type="number" name="latitude" id="latitude" class="form-control"></input>
+            </div>
+            <div class="form-group">
+              <label for="datePicker">Date : </label>
+              <input size="16" type="text" value="<?php echo date("Y-m-d H:i", strtotime('+1 day')); ?>" readonly class="form_datetime" id="datePicker" name="date"></input>
+            </div>
+            <input type="submit" class="btn btn-primary"></input>
+          </form>
+        </div>
+      </div>
+    </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="../js/index.js"></script>
+    <script src="../js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+    $(function () {
+      $('#datePicker').datetimepicker();
+    });
+    </script>
   </body>
 </html>
