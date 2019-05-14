@@ -25,7 +25,7 @@ $(function () {
     $('#latitude').val(e.latlng.lat);
     $('#longitude').val(e.latlng.lng);
 
-    if(marker == null)
+    if(typeof marker == "undefined")
     {
       marker = L.marker(e.latlng).addTo(map);
     }
